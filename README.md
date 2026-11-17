@@ -35,7 +35,7 @@ Edit Anything picks the engine per scene and installs it only with your consent.
 
 | Engine | For | Licence |
 |--------|-----|---------|
-| [Explainer Studio](engines/explainer-studio) (ships here) | 95 looks, wide or reel, its own sound kit, MP4 export | MIT |
+| [Explainer Studio](engines/explainer-studio) (ships here, as code) | 95 looks, wide or reel, its own sound kit, rendered headless to MP4 | MIT |
 | [html-reel](https://fil.design) (when installed) | Reels from a source, cut to a voice, with a camera placeholder | its author's terms |
 | [Lemo-Opuscar](https://github.com/lemomo-ai/lemo-opuscar) | Films in 99 named styles | code MIT, style texts CC BY-NC 4.0 |
 | [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft) | Product promos from real screenshots | Apache 2.0 |

@@ -6,7 +6,8 @@ Run `python3 scripts/harness_check.py` first. It looks for the tools below, prin
 |------|------------|-------|---------------------|
 | ffmpeg and ffprobe | every route (export, measuring, cutting) | `ffmpeg -version` | macOS `brew install ffmpeg`; Windows `winget install ffmpeg`; Linux the package manager |
 | Python 3.10+ | the scripts | `python3 --version` | python.org or the package manager |
-| Node 18+ | code engines (Explainer Studio export, html-reel, shotcraft, three.js) | `node --version` | nodejs.org or `brew install node` |
+| Playwright for Python | headless render of Explainer Studio (`scripts/render_studio.py`) | `python3 -c "import playwright"` | `pip install playwright && playwright install chromium` |
+| Node 18+ | the other code engines (html-reel, shotcraft, three.js) | `node --version` | nodejs.org or `brew install node` |
 | Chrome or Chromium | rendering code scenes frame by frame | the app or `chromium` | google.com/chrome |
 | Whisper (any build) | transcripts with word times (routes C and D) | `whisper`, `whisper-cli`, `mlx_whisper` or MacWhisper | `pip install faster-whisper` or MacWhisper |
 | librosa | the beat grid | `python3 -c "import librosa"` | `pip install librosa` |
@@ -21,8 +22,8 @@ Keys (only say whether they are set): `ELEVENLABS_API_KEY` for a voice, `GEMINI_
 
 | Route | Minimum | Better with |
 |-------|---------|-------------|
-| A. Reel | ffmpeg, Node, Chrome | Whisper, librosa, earshot |
-| B. Fully AI-made film | ffmpeg, Node, Chrome | Flora, Blender, earshot |
+| A. Reel | ffmpeg, Playwright | Node and Chrome for the other code engines, Whisper, librosa, earshot |
+| B. Fully AI-made film | ffmpeg, Playwright | Node and Chrome for the other code engines, Flora, Blender, earshot |
 | C. Talking head in | ffmpeg, Whisper | librosa, earshot, the user's editor |
 | D. Talking head to record | a phone, ffmpeg, Whisper | everything in C |
 

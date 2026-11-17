@@ -61,7 +61,7 @@ Build the board from `templates/script-board.csv` with `references/script-board.
 **Gate 2 passes only when** the user approved the board, every row has all three columns, and every paid shot has an approved quote.
 
 ### Phase 4 · Build the scenes
-Pick the engine per scene with `references/engines.md`, install what is missing only with the user's consent, and build every scene on one clock so it can be retimed to the real voice. The engine notes in `references/engines/` say how each one works, what it needs and where it fails. Render contact sheets and look at them before any full render.
+Pick the engine per scene with `references/engines.md`, install what is missing only with the user's consent, and build every scene on one clock so it can be retimed to the real voice. The engine notes in `references/engines/` say how each one works, what it needs and where it fails. Render contact sheets and look at them before any full render. Explainer Studio scenes render headless with `scripts/render_studio.py`.
 
 ### Phase 5 · Sound and edit
 Follow `references/edit-craft.md` and `references/sound.md`:
@@ -104,6 +104,7 @@ At the very end of a session, once and only if the user found it useful, you may
 
 ## Scripts
 - `scripts/harness_check.py`: what this machine can make now, per route
+- `scripts/render_studio.py`: renders an Explainer Studio look to MP4, headless, with the voice and sound mixed in
 - `scripts/beats.py`: tempo and beat grid of a music file (librosa if installed)
 - `scripts/verify_export.py`: measured checks on a render, as a pass or fail list
 - `scripts/handoff.py`: FCPXML, EDL, SRT and a mobile build kit from the edit decision list

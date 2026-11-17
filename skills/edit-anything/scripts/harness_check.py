@@ -54,6 +54,7 @@ def install_hint(tool):
         "ffmpeg": "brew install ffmpeg" if MAC else ("winget install ffmpeg" if WIN else "sudo apt install ffmpeg"),
         "node": "brew install node" if MAC else ("winget install OpenJS.NodeJS" if WIN else "install Node 18+ from nodejs.org"),
         "chrome": "install Google Chrome from google.com/chrome",
+        "playwright": "pip install playwright && playwright install chromium",
         "whisper": "pip install faster-whisper   (or MacWhisper on a Mac)",
         "librosa": "pip install librosa",
         "earshot": 'uv tool install "earshot[mcp] @ git+https://github.com/Leonxlnx/earshot"',
@@ -69,6 +70,7 @@ def check():
     r["ffprobe"] = version("ffprobe", ("-version",))
     r["node"] = version("node")
     r["chrome"] = app(["Google Chrome", "Chromium"]) or version("google-chrome") or version("chromium")
+    r["playwright"] = "python module" if has_module("playwright") else None
     r["whisper"] = (version("whisper") or version("whisper-cli") or version("mlx_whisper")
                     or ("python module" if has_module("faster_whisper") or has_module("whisper") else None)
                     or app(["MacWhisper"]))
@@ -81,8 +83,8 @@ def check():
 
 
 ROUTES = {
-    "A. Reel": (["ffmpeg", "node", "chrome"], ["whisper", "librosa", "earshot"]),
-    "B. Fully AI-made film": (["ffmpeg", "node", "chrome"], ["earshot", "blender"]),
+    "A. Reel": (["ffmpeg", "playwright"], ["chrome", "node", "whisper", "librosa", "earshot"]),
+    "B. Fully AI-made film": (["ffmpeg", "playwright"], ["chrome", "node", "earshot", "blender"]),
     "C. Talking head in": (["ffmpeg", "whisper"], ["librosa", "earshot", "resolve"]),
     "D. Talking head to record": (["ffmpeg", "whisper"], ["librosa", "earshot", "resolve"]),
 }
@@ -95,7 +97,7 @@ def main():
         return
     print(f"Machine: {r['system']}, Python {r['python']}\n")
     print("Tools:")
-    for k in ("ffmpeg", "ffprobe", "node", "chrome", "whisper", "librosa", "earshot", "blender", "resolve"):
+    for k in ("ffmpeg", "ffprobe", "playwright", "node", "chrome", "whisper", "librosa", "earshot", "blender", "resolve"):
         print(f"  {'✓' if r[k] else '·'} {k:<8} {r[k] or 'not found'}")
     print("Keys: " + ", ".join(f"{k} {v}" for k, v in r["keys"].items()))
     print("\nWhat you can make now:")

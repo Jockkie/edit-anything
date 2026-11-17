@@ -9,7 +9,7 @@ Skills tell an AI agent what to do, and this one also runs scripts on your machi
 | `skills/edit-anything/SKILL.md` and `references/` | Instructions and reference text for the agent | No | No |
 | `skills/edit-anything/scripts/*.py` | Checks, measurements and handoff files (Python standard library; ffmpeg and ffprobe as external programs; librosa only if installed) | No | Only to the output path you or the agent pass on the command line |
 | `hooks/check_reply.py` (Claude Code only) | Reads the current session transcript after each reply and can send the reply back for a fix | No | No |
-| `engines/explainer-studio/` | A web page and an Electron app that draw films and export MP4 with ffmpeg | Loads fonts from Google Fonts | Only the MP4 you choose to save |
+| `engines/explainer-studio/studio.html` | A web page that draws the films; `render_studio.py` renders it headless and exports MP4 with ffmpeg | Loads fonts from Google Fonts | Only the MP4 at the `--out` path |
 | `.mcp.json` / `mcp.json` | Registers the Flora and Monid MCP servers | Only after you authenticate them with `/mcp` | No |
 
 - No script makes a network call. You can check this yourself: none of them imports a network library.
