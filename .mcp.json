@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "monid": {
+      "type": "http",
+      "url": "https://mcp.monid.ai/v1"
+    },
+    "flora": {
+      "type": "http",
+      "url": "https://mcp.flora.ai/mcp"
+    }
+  }
+}

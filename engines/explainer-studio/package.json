@@ -1,0 +1,19 @@
+{
+  "name": "explainer-studio",
+  "productName": "Explainer Studio",
+  "version": "1.0.0",
+  "description": "Make short films in 95 styles, wide or reel, with voiceover, sound and MP4 export.",
+  "main": "main.js",
+  "author": "Jockkie",
+  "license": "MIT",
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0"
+  },
+  "repository": "https://github.com/Jockkie/edit-anything",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.4.11"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "edit-anything",
+  "version": "0.1.0",
+  "description": "AI director and editor for people without editing experience: mood-first interview with real references, the right route (reel, AI-made film, talking head in or to record), script and picture planned word by word, open-source engines, cuts on words and beats, measured checks and a handoff to the user's own editor.",
+  "author": {
+    "name": "Jockkie Studio",
+    "email": "info@jockkie.com",
+    "url": "https://www.jockkie.com"
+  },
+  "homepage": "https://www.jockkie.com",
+  "license": "MIT",
+  "repository": "https://github.com/Jockkie/edit-anything"
+}

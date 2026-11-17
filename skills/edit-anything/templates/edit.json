@@ -1,0 +1,46 @@
+{
+  "schema": "edit-anything/dossier/v1",
+  "language": "en",
+  "brief": {
+    "goal": {"value": "viewers book a free intake call", "label": "seen", "quote": "I want people to book a call after watching"},
+    "viewer": {"value": "owners of small physiotherapy practices", "label": "seen", "quote": "physio owners like me"},
+    "platform": {"value": "Instagram Reels", "label": "seen", "quote": "mostly Instagram"},
+    "length": {"value": 30, "label": "inferred", "basis": "Reels sweet spot for one idea; the user agreed to 'around half a minute'"},
+    "route": "talking-head-to-record",
+    "editor": {"value": "Edits", "label": "seen", "quote": "I edit in Edits on my phone"},
+    "deadline": {"label": "unknown"}
+  },
+  "material": [
+    {"what": "brand colours and logo", "label": "seen", "quote": "my colours are green and sand"}
+  ],
+  "mood": {
+    "energy": {"value": 2, "label": "seen", "quote": "calm, not one of those shouting reels"},
+    "temperature": {"value": 4, "label": "seen", "quote": "warm, like the practice"},
+    "texture": {"value": 3, "label": "seen", "quote": "a bit hand-made"},
+    "pace": {"value": 2, "label": "seen", "quote": "let it breathe"},
+    "type_voice": {"value": 2, "label": "inferred", "basis": "picked the quiet serif reference over the loud display one"}
+  },
+  "references": [
+    {"name": "Explainer Studio: Hand-Drawn family", "reaction": "closest", "label": "seen", "quote": "this one feels like us"}
+  ],
+  "gate1": {"confirmed_by_user": true},
+  "look": {"file": "Look.md", "style_frame_approved": true},
+  "board": [
+    {"said": "Most patients quit their exercises in week two.", "seen": "A calendar where the ticks stop after day 9", "lands_on": "quit",
+     "layout": "full frame", "engine": "explainer-studio", "shot_type": "code", "seconds": 2.6},
+    {"said": "Here is the one change that kept mine going.", "seen": "Speaker, face full frame", "lands_on": "change",
+     "layout": "face", "engine": "footage", "shot_type": "footage", "seconds": 2.4}
+  ],
+  "claims": [
+    {"claim": "Most patients quit their exercises in week two", "proof": "the user's own practice records", "label": "seen", "quote": "in my practice most stop in the second week"}
+  ],
+  "gate2": {"confirmed_by_user": true},
+  "verify": {"passed": true, "report": "verify_report.json"},
+  "handoff": {"editor": "Edits", "kind": "mobile-kit"},
+  "credits": ["Explainer Studio (MIT)", "music: own recording"],
+  "spend": {"cap": 0, "spent": 0},
+  "assumptions": [
+    {"text": "30 seconds is the length", "basis": "Reels sweet spot; the user said around half a minute"}
+  ],
+  "review_date": "2026-12-01"
+}
