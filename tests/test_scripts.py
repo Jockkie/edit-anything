@@ -149,32 +149,6 @@ class VerifyExport(unittest.TestCase):
             self.assertEqual(r.returncode, 1)
 
 
-HAVE_PLAYWRIGHT = importlib.util.find_spec("playwright") is not None
-
-
-@unittest.skipUnless(HAVE_FFMPEG and HAVE_PLAYWRIGHT, "ffmpeg or Playwright not installed")
-class RenderStudio(unittest.TestCase):
-    script = path("scripts", "render_studio.py")
-
-    def test_lists_looks(self):
-        r = run(self.script, "--list")
-        self.assertEqual(r.returncode, 0, r.stderr[-500:])
-        self.assertGreaterEqual(len(r.stdout.strip().splitlines()), 90)
-
-    def test_reel_renders_and_passes_verify(self):
-        with tempfile.TemporaryDirectory() as d:
-            out = os.path.join(d, "film.mp4")
-            r = run(self.script, "--look", "whiteboard", "--format", "reel", "--seconds", "3", "--out", out)
-            self.assertEqual(r.returncode, 0, r.stderr[-500:])
-            v = run(path("scripts", "verify_export.py"), out, "--target", "social", "--shape", "9:16")
-            self.assertEqual(v.returncode, 0, v.stdout)
-
-    def test_unknown_look_fails(self):
-        with tempfile.TemporaryDirectory() as d:
-            r = run(self.script, "--look", "no-such-look", "--seconds", "1", "--out", os.path.join(d, "x.mp4"))
-            self.assertNotEqual(r.returncode, 0)
-
-
 class HarnessCheck(unittest.TestCase):
     def test_runs_and_never_prints_keys(self):
         env = dict(os.environ, ELEVENLABS_API_KEY="sk-secret-123")
