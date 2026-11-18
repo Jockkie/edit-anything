@@ -2,7 +2,7 @@
 
 # Edit Anything
 
-*Part of [Jockkie Studio's open-source skills](https://github.com/Jockkie/jockkie-studio). I do the geeking. You get the easy part.*
+*Part of [Jockkie Studio's](https://www.jockkie.com) open-source skills. I do the geeking. You get the easy part.*
 
 > **Version 0.1.0, beta.** Built and checked with Claude; the scripts are tested, the full flow is new. See [Platform status](#platform-status), and please [report what you find](https://github.com/Jockkie/edit-anything/issues/new/choose).
 
@@ -57,7 +57,6 @@ The skill folder is `skills/edit-anything`.
 /plugin marketplace add Jockkie/edit-anything
 /plugin install edit-anything@edit-anything
 ```
-All Jockkie Studio skills in one go: `/plugin marketplace add Jockkie/jockkie-studio`, then `/plugin install edit-anything@jockkie-studio`.
 
 **Claude.ai**: zip the `skills/edit-anything` folder and upload it in Claude's skills settings. The scripts need a computer, so on Claude.ai you get the interview, the board and the plan.
 
