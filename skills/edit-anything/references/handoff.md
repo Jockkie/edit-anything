@@ -1,6 +1,6 @@
 # Handoff: the user's own editor
 
-The user picks the app they keep editing in. Edit Anything ends with something that app can open, so the user can change a cut, a title or the music themselves. Always deliver the MP4 too.
+The user picks where the edit lives: **here**, in Edit Anything itself, or in an app they keep editing in. For an app, Edit Anything ends with something that app can open, so the user can change a cut, a title or the music themselves. Always deliver the MP4 too.
 
 `python3 scripts/handoff.py edl.json --out handoff/ [--fcpxml] [--edl] [--srt] [--mobile-kit]` builds the files from the edit decision list (`templates/edit.json` → `edl`).
 
@@ -11,6 +11,7 @@ The user picks the app they keep editing in. Edit Anything ends with something t
 | **Premiere Pro** | EDL (CMX 3600) plus the media folder; FCPXML also imports in recent versions | File, Import |
 | **CapCut** | A mobile build kit: numbered clips in order, the voice, music and effect stems, an SRT, a cut list with times | Import the clips in order, add the stems, import the SRT as captions |
 | **Edits (Instagram)** | The same mobile build kit; Edits imports clips and audio and adds captions itself | New project, import clips in order, add the audio |
+| **Edited here** (`editor: "here"`) | The MP4, the SRT and the stems, plus the project (board, scene JSON, `Look.md`) kept in the dossier, so every change is one sentence and a new render | Ask for the change in the conversation; the next render replaces the MP4 |
 | **No editor** | The MP4, the SRT and the stems | none needed |
 
 CapCut and Edits cannot open project files made outside them, so the build kit is designed to rebuild the edit in a few minutes: the clip names start with their order and their start time, and the cut list says what goes where.

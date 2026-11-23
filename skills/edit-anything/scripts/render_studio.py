@@ -124,6 +124,8 @@ def main():
     ap.add_argument("--music", help="music bed, ducked under the voice")
     ap.add_argument("--lufs", type=float, default=-14.0, help="master loudness: -14 for social (default), -16 for YouTube long form, -23 for broadcast")
     ap.add_argument("--out", help="output MP4")
+    ap.add_argument("--looks", help="JSON list of extra looks (a brand's own style system), see engines/explainer-studio/README.md")
+    ap.add_argument("--font", action="append", default=[], metavar="FAMILY=FILE", help="a local font file to use, for example Spectral=Spectral-Bold.ttf (repeat per weight)")
     ap.add_argument("--studio", default=DEFAULT_STUDIO, help="path to studio.html")
     ap.add_argument("--list", action="store_true", help="list the looks and stop")
     a = ap.parse_args()
@@ -155,6 +157,22 @@ def main():
             browser = launch(p)
             page = browser.new_page(viewport={"width": 1560, "height": 980})
             page.add_init_script(SHIM)
+            if a.looks:
+                page.add_init_script("window.EXTRA_RECIPES = " + json.dumps(json.load(open(a.looks, encoding="utf-8"))) + ";")
+            if a.font:
+                css = []
+                for spec in a.font:
+                    fam, _, path = spec.partition("=")
+                    if not os.path.exists(path):
+                        fail(f"font file not found: {path}")
+                    w = 400
+                    for name, val in (("thin", 100), ("extralight", 200), ("light", 300), ("medium", 500), ("semibold", 600), ("extrabold", 800), ("black", 900), ("bold", 700)):
+                        if name in os.path.basename(path).lower():
+                            w = val
+                            break
+                    data = base64.b64encode(open(path, "rb").read()).decode()
+                    css.append(f"@font-face{{font-family:'{fam}';font-weight:{w};src:url(data:font/ttf;base64,{data}) format('truetype');}}")
+                page.add_init_script("document.addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent=" + json.dumps("".join(css)) + ";document.head.appendChild(s);});")
 
             def begin(o):
                 video = os.path.join(tmp, "video.mp4")

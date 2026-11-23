@@ -20,7 +20,7 @@ Method base: the paper edit and cutting on words and breaths (documentary and ta
 4. **Edit from the rawest material.** Raw takes over cut clips, word-level transcript over a summary, the beat grid over "the music". A top editor starts from the source.
 5. **Sound first.** Voice and music decide the cuts; picture follows the words and the beats. Never say how something sounds without an earshot reading or a measurement.
 6. **An outside judge decides if it worked, never you.** Every render goes through `scripts/verify_export.py` (and earshot when installed) and the user's own eyes. Report the numbers honestly; a missed target with real numbers is a good result, a faked pass is not.
-7. **The user keeps control.** The edit ends as a timeline or a build kit in the editor the user picks, not only as a flat MP4.
+7. **The user keeps control.** The edit stays editable: here, as a project the user changes by asking (every change a new render), or as a timeline or build kit in the editor the user picks. Never only a flat MP4.
 8. **Honest content only.** No deepfakes of real people, no voice cloning without the speaker's consent, no fake testimonials, no claims the user cannot prove, no copyrighted music, footage or characters without a licence.
 9. **Label every fact in the dossier:** `seen` (stated or shown, with the user's words as `quote`), `inferred` (with `basis`), `unknown`.
 10. **Privacy:** footage, faces and voices stay on the user's machine. Nothing goes to an external tool without consent. See `references/privacy.md`.
@@ -45,7 +45,7 @@ Follow `references/interview.md`. In order:
 1. **What it is for:** the goal beyond the video (what should a viewer do or feel next), the audience, the platform and the length.
 2. **What already exists:** footage, takes, a voice, a script, a product, screenshots, music, a brand. Route the answer with `references/routes.md`: a reel, a fully AI-made film, a talking head that already exists, or a talking head still to record.
 3. **Mood and references:** show 4 to 6 references from `references/reference-library.md` that fit the goal and route (Explainer Studio's 95 styles, Lemo-Opuscar's styles, video-shotcraft shots, the motion-graphics boards, the Opus prompt packs, Tein workflows) plus the user's own references. Ask what they like and what they do not, one reference set at a time. Translate the reactions into the five mood axes (energy, temperature, texture, pace, type voice) and confirm them.
-4. **Their editor:** which app they want to keep editing in (`references/handoff.md`). If they have none, recommend by device and goal.
+4. **Where the edit lives:** here in Edit Anything (the user asks for changes, you re-render), or an app they keep editing in (`references/handoff.md`). Offer "here" first; if they want an app but have none, recommend by device and goal.
 
 **Gate 1 passes only when** goal, audience, platform, length, route, mood axes and editor are filled and the user confirmed the brief summary.
 
@@ -74,7 +74,7 @@ Follow `references/edit-craft.md` and `references/sound.md`:
 Run `scripts/verify_export.py` on the render (loudness, true peak, black frames, frozen frames, length, resolution, audio present, captions against the transcript). When earshot is installed, run `earshot critique` and `earshot timeline --video` for sync and mix. For a draft that matters, ask two blind judges (subagents that see only the two renders and the brief) which one does the job better. Show the numbers and fix what fails before delivery (`references/judges.md`).
 
 ### Phase 7 · Handoff to their editor → delivery
-Hand over with `scripts/handoff.py` and `references/handoff.md`: a timeline (FCPXML for Final Cut and DaVinci Resolve, EDL for Premiere), DaVinci Resolve over MCP when connected, or a mobile build kit for CapCut and Edits (numbered clips, voice, stems, SRT, cut list). Plus the MP4, `Look.md` and the board. Tell the user in two or three lines what they may still want to adjust themselves.
+When the edit lives here (`editor: "here"`), deliver the MP4, the SRT and the stems, keep the project and board in the dossier, and invite changes as plain sentences; each change is a new render through Phase 6. Otherwise hand over with `scripts/handoff.py` and `references/handoff.md`: a timeline (FCPXML for Final Cut and DaVinci Resolve, EDL for Premiere), DaVinci Resolve over MCP when connected, or a mobile build kit for CapCut and Edits (numbered clips, voice, stems, SRT, cut list). Plus the MP4, `Look.md` and the board. Tell the user in two or three lines what they may still want to adjust themselves.
 
 ### Phase 8 · Learn
 Add every correction the user made to `checks.md` as a DO or a DON'T, so the next video starts there (`references/learning.md`). After publishing, offer to read the platform numbers (retention, watch time) and write what they say about the hook and the pacing into `checks.md`. Set a review date.

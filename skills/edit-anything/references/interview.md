@@ -41,7 +41,7 @@ Write each axis as a position (for example "energy 3 of 5") with the user's own 
 
 ## 4. Their editor
 
-Ask which app they want to keep editing in. If they have none: on a phone, Edits (Instagram) or CapCut; on a computer, DaVinci Resolve (free) or what they already own. See `references/handoff.md`.
+Ask where the edit lives after the first cut. Offer **edited here** first: Edit Anything keeps the project and the board, and every change is a sentence to you ("the title a beat later", "warmer music") followed by a new render. Then the apps: on a phone, Edits (Instagram) or CapCut; on a computer, DaVinci Resolve (free) or what they already own. Record the choice as `editor: "here"` or the app's name. See `references/handoff.md`.
 
 ## Gate 1 summary
 
