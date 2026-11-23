@@ -58,7 +58,9 @@ The skill folder is `skills/edit-anything`.
 /plugin install edit-anything@edit-anything
 ```
 
-**Claude.ai**: zip the `skills/edit-anything` folder and upload it in Claude's skills settings. The scripts need a computer, so on Claude.ai you get the interview, the board and the plan.
+**Claude.ai**: download [`edit-anything.zip`](https://github.com/Jockkie/edit-anything/raw/main/dist/edit-anything.zip) and upload it in Claude's skills settings. The scripts need a computer, so on Claude.ai you get the interview, the board and the plan.
+
+**Microsoft Copilot (Microsoft 365 Copilot, Premium)**: download [`edit-anything.zip`](https://github.com/Jockkie/edit-anything/raw/main/dist/edit-anything.zip), with `SKILL.md` at the root. In Microsoft Copilot open Home, right-click Agents and choose More agents, then Add, Upload skill, and pick the zip. Turn on "Let Copilot use this skill automatically", or choose the skill under Agents and Skills when you start. Copilot Cowork reads the same format: put the unzipped folder in your OneDrive skills folder (`Documents/Cowork/skills/`).
 
 **Hermes Agent**: this repository is also an [Agent Plugins](https://vercel.com/kb/guide/agent-plugins) package. Copy it into `~/.hermes/plugins/edit-anything`, then `hermes plugins enable edit-anything`.
 
@@ -72,6 +74,8 @@ Start by saying something like "turn this talk into three reels", "I need a 30-s
 |----------|--------|-----------------|
 | Claude Code | Validated | Manifest and hook pass `claude plugin validate`; the scripts are tested |
 | Claude.ai | Interview and board | No local scripts there; rendering needs a computer |
+| Microsoft Copilot | Interview and board | Agent Skills upload (Premium); rendering needs a computer with a code agent |
+| GitHub Copilot | Untested | Runs code, so the scripts and the render work there, as in Claude Code |
 | Hermes, Codex, Cursor and others | Untested | Built to the Agent Skills and Agent Plugins formats |
 
 ## Optional tools
