@@ -807,6 +807,23 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   const TONE = { a: [WBROWN, P.gold], b: [WGREEN, P.cream], c: [WORANGE, P.cream], ok: [WGREEN, C('#9dffb0')] };
   const HERO = ['.....KKKKKK.....', '....KHHHHHHK....', '....KHHhHHHK....', '..KKKKKKKKKKKK..', '.KHHHHHHHHHHHHK.', '...KSSSSSSSSK...', '...KGgGSSGgGK...', '...KSSSSSSSSK...', '...KBSSSSSSBK...', '....KBBSSBBK....', '.....KBBBBK.....', '..KJJJJJJJJJJK..', '.KJJOJJJJJJOJJK.', '.KJJOVVVVVVOJJK.', '.KJJOVvOOvVOJJK.', '.KJjOVvvvvVOjJK.', '.KJJKYYYYYYKJJK.', '.KOOKPPPPPPKOOK.', '.KOOKPPppPPKOOK.', '..KKKPPPPPPKKK..', '....KPPPKKPPPK..', '....KNNPKKPNNK..', '....KPPK..KPPK..', '....KPPK..KPPK..', '...KTTTK..KTTTK.', '...KTTTTK.KTTTTK', '...KKKKKK.KKKKKK'];
   const HERO_PAL = { K: '#161210', H: '#26262c', h: '#4a4a54', S: '#c98a5e', G: '#2a5ad8', g: '#a8d8ff', B: '#2a1a14', J: '#3a3a42', j: '#585862', O: '#F57C00', V: '#7a4a38', v: '#4e2e22', Y: '#9c9ca8', P: '#1e1e24', p: '#2e2e36', N: '#4a4a54', T: '#4c4c54' };
+  // poses for the hero, drawn from the base sprite: arms as 2-pixel lines with an orange glove, legs for a walk
+  const POSE_CACHE = {};
+  function heroPose(name, fr) {
+    const key = name + fr; if (POSE_CACHE[key]) return POSE_CACHE[key];
+    const PAD = 5, Wd = HERO[0].length + PAD * 2, G = HERO.map((row) => ('.'.repeat(PAD) + row + '.'.repeat(PAD)).split(''));
+    const clearArm = (side) => { const cs = side === 'R' ? [12, 13, 14] : [1, 2, 3]; for (let rr = 12; rr <= 19; rr++) cs.forEach((c) => { G[rr][c + PAD] = '.'; }); const edge = side === 'R' ? 12 : 3; for (let rr = 12; rr <= 18; rr++) G[rr][edge + PAD] = 'K'; };
+    const line = (r0, c0, r1, c1) => { const n = Math.max(Math.abs(r1 - r0), Math.abs(c1 - c0)) || 1; for (let i = 0; i <= n; i++) { const rr = Math.round(r0 + (r1 - r0) * i / n), cc = Math.round(c0 + (c1 - c0) * i / n); for (let a = 0; a < 2; a++) for (let bb = 0; bb < 2; bb++) if (G[rr + a] && G[rr + a][cc + bb] !== undefined) G[rr + a][cc + bb] = 'J'; } for (let a = 0; a < 2; a++) for (let bb = 0; bb < 2; bb++) if (G[r1 + a] && G[r1 + a][c1 + bb] !== undefined) G[r1 + a][c1 + bb] = 'O'; };
+    const outline = () => { const src = G.map((row) => row.slice()); for (let rr = 0; rr < G.length; rr++) for (let c = 0; c < Wd; c++) if (src[rr][c] === '.') { const n = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dy, dx]) => src[rr + dy] && src[rr + dy][c + dx] && src[rr + dy][c + dx] !== '.' && src[rr + dy][c + dx] !== 'K'); if (n) G[rr][c] = 'K'; } };
+    const R = 12, cR = 13 + PAD, cL = 1 + PAD;
+    if (name === 'wave') { clearArm('R'); line(R, cR, fr ? 3 : 4, fr ? cR + 3 : cR + 1); }
+    else if (name === 'point') { clearArm('R'); line(R + 1, cR, R + (fr ? 0 : 1), cR + 5); }
+    else if (name === 'cheer') { clearArm('R'); clearArm('L'); line(R, cR, fr ? 2 : 3, cR + 3); line(R, cL, fr ? 3 : 2, cL - 3); }
+    else if (name === 'think') { clearArm('R'); line(R + 2, cR, 9, cR - 1); }
+    else if (name === 'present') { clearArm('R'); clearArm('L'); line(R + 1, cR, R + (fr ? 3 : 2), cR + 4); line(R + 1, cL, R + (fr ? 2 : 3), cL - 4); }
+    else if (name === 'walk') { for (let rr = 22; rr < G.length; rr++) { const row = G[rr], l = row.slice(0, 9 + PAD), rgt = row.slice(9 + PAD); const sh = fr ? 1 : -1; const nl = sh > 0 ? ['.'].concat(l.slice(0, -1)) : l.slice(1).concat(['.']); const nr = sh > 0 ? rgt.slice(1).concat(['.']) : ['.'].concat(rgt.slice(0, -1)); G[rr] = nl.concat(nr); } }
+    outline(); const out = G.map((row) => row.join('')); POSE_CACHE[key] = out; return out;
+  }
   let NZ = null, TXC = null, TXX = null;
 
   function grid(g) {
@@ -897,7 +914,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     },
     mark(g, r, text, p, o) { const K = g.K, U = K.U, q = Math.floor(p * 4) / 4; if (q <= 0) return; const dy = Math.floor((g.T * 12)) % 6 < 2 ? 2 : 0, w = Math.round(r.w / U), x = Math.round(r.x / U), y = Math.round(r.y / U) + dy - (o.exit ? 30 : 0); K.bubble(x, y, w, Math.round(r.h / U * 0.7), x + 8); K.text(text, x + Math.round((w - K.textW(text, 16)) / 2), y + Math.round(r.h / U * 0.35) - 8, P.orange, 16, null); },
     accent(g, cx, cy, r, p, o) { const K = g.K, U = K.U; if (p <= 0) return; K.orb(Math.round(cx / U), Math.round(cy / U - (o.exit || 0) * 20), Math.round(r / U * 1.8), false); },
-    mascot(g, r, b, exit) { const K = g.K, U = K.U, sc = 2; if (g.scene === 'blueprint') return; const feet = g.scene === 'hill' ? (K.hz + 2) : Math.min(Math.round((r.y + r.h) / U), (K.floorY || 100) + 40), x = Math.round((r.x + r.w / 2) / U - 16); for (let xx = x + 4; xx < x + 28; xx++) K.put(xx, feet, P.ink); K.sprite(HERO, HERO_PAL, x, feet - HERO.length * sc - (Math.floor(g.T * 2) % 2), false, sc); },
+    mascot(g, r, b, exit) { const K = g.K, U = K.U, sc = 2; if (g.scene === 'blueprint') return; const feet = g.scene === 'hill' ? (K.hz + 2) : Math.min(Math.round((r.y + r.h) / U), (K.floorY || 100) + 40);
+        // the hero acts: b.act is a pose name or a list of {t, a}; b.walk is [from, to] as a share of the width; b.hop is a list of times he jumps
+        let act = 'idle'; if (b && b.act) { if (typeof b.act === 'string') act = b.act; else b.act.forEach((s) => { if (g.T >= s.t) act = s.a; }); }
+        let cx = (r.x + r.w / 2) / U, walking = false; if (b && b.walk) { const k = Math.max(0, Math.min(1, (g.T - b.t0) / Math.max(0.3, (b.walkFor || 1.2)))); cx = K.GW * (b.walk[0] + (b.walk[1] - b.walk[0]) * (1 - Math.pow(1 - k, 2))); walking = k < 1; }
+        let lift = 0; if (b && b.hop) b.hop.forEach((h) => { const d = g.T - h; if (d >= 0 && d < 0.5) lift = Math.max(lift, Math.round(Math.sin(d / 0.5 * Math.PI) * 10)); });
+        const fr = Math.floor(g.T * (act === 'cheer' || act === 'wave' ? 6 : 4)) % 2, spr = heroPose(walking ? 'walk' : act, fr);
+        const x = Math.round(cx - spr[0].length * sc / 2); for (let xx = x + 8; xx < x + spr[0].length * sc - 8; xx++) K.put(xx, feet, P.ink); K.sprite(spr, HERO_PAL, x, feet - spr.length * sc - lift - (lift ? 0 : Math.floor(g.T * 2) % 2), false, sc); },
     end(g, tr) {
       const K = g.K, { GW, GH, T, buf } = K;
       if (tr) { const k = 1 - Math.abs(tr.p - 0.5) * 2;

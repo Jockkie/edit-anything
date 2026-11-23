@@ -23,6 +23,8 @@ The script opens the page headless, draws every frame, pipes the frames to ffmpe
 - Every look is a pure function of time, `draw(ctx, W, H, t)`, on a 1280 × 720 logical canvas: the same `t` gives the same pixels, and randomness is seeded. That is what lets Edit Anything retime a scene to a real voice, and why the export matches the preview.
 - A synthesized sound kit in plain Web Audio (pops, ticks, whooshes, risers, impacts, pen, chalk, brush and paper sounds). In voiceover mode the beds drop out and effects sit lower, so the voice stays on top.
 - A project is JSON (beats and duration). Save it next to the script board to reuse it.
+- In the 16-bit look the hero acts per beat: `act` is a pose (`idle`, `wave`, `point`, `cheer`, `think`, `present`) or a list of `{t, a}`; `walk` is `[from, to]` as a share of the width, with `walkFor` seconds; `hop` is a list of times he jumps. `enter` (`mosaic`, `swirl`, `iris`) sets the transition into a beat.
+- Brand looks: `render_studio.py --looks looks.json --font Family=file.ttf` adds a brand's own palette, type and texture.
 - The page exposes `window.__render(options)` and `window.__looks()` for headless use; `render_studio.py` supplies the frame and sound bridge as `window.studioApp`.
 
 ## Families
