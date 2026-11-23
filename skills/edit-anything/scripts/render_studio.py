@@ -41,7 +41,7 @@ def mix(ffmpeg, tmp, video, out, seconds, effects, voice, music, lufs=-14.0):
     s = seconds
     pad = max(s, 4.0)  # loudnorm's 3 s window turns a clip of exactly 3 s into NaN; pad, then cut with -t
     prep = f"aresample=48000,aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,apad=whole_dur={pad},atrim=0:{pad}"
-    outro = f"loudnorm=I={lufs}:TP=-1.5:LRA=11,aformat=sample_rates=48000:channel_layouts=stereo[a]"
+    outro = f"apad=pad_dur=4,loudnorm=I={lufs}:TP=-1.5:LRA=11,aformat=sample_rates=48000:channel_layouts=stereo[a]"
     fx_raw, fx_wav = os.path.join(tmp, "fx.f32"), os.path.join(tmp, "fx.wav")
     samples = array.array("f")
     samples.frombytes(effects[: len(effects) // 4 * 4])
@@ -83,7 +83,7 @@ def mix(ffmpeg, tmp, video, out, seconds, effects, voice, music, lufs=-14.0):
              f"[fx0][mu0]amix=inputs=2:normalize=0,{outro}"]
     else:
         solo = "loudnorm=I=-18:TP=-2" if peak > 1e-4 else "volume=1"
-        f = [f"[{fi}:a]{prep},{solo},aformat=sample_rates=48000:channel_layouts=stereo[a]"]
+        f = [f"[{fi}:a]{prep},apad=pad_dur=4,{solo},aformat=sample_rates=48000:channel_layouts=stereo[a]"]
     r = subprocess.run([ffmpeg, "-y", "-v", "error", *inputs, "-filter_complex", ";".join(f), "-map", "0:v", "-map", "[a]",
                         "-c:v", "copy", "-c:a", "aac", "-ar", "48000", "-ac", "2", "-b:a", "192k", "-t", str(s),
                         "-movflags", "+faststart", out], capture_output=True, text=True)

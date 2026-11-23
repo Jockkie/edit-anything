@@ -24,7 +24,7 @@ def run(cmd):
 
 def probe(path):
     out = run(["ffprobe", "-v", "error", "-show_entries",
-               "stream=codec_type,width,height,r_frame_rate:format=duration", "-of", "json", path])
+               "stream=codec_type,width,height,r_frame_rate,duration:format=duration", "-of", "json", path])
     if out.returncode != 0:
         raise RuntimeError(out.stderr.strip() or "ffprobe failed")
     data = json.loads(out.stdout)
@@ -131,6 +131,9 @@ def main(argv=None):
         add("length", abs(diff) <= 0.5, f"{info['duration']:.2f} s against {a.expect_seconds:.2f} s ({diff:+.2f} s)")
     else:
         add("length", info["duration"] > 0, f"{info['duration']:.2f} s")
+    if v and au and v.get("duration") and au.get("duration"):
+        gap = float(v["duration"]) - float(au["duration"])
+        add("sound to the end", gap <= 0.25, f"audio {float(au['duration']):.2f} s, picture {float(v['duration']):.2f} s" + (" (the last words are cut off)" if gap > 0.25 else ""))
 
     if au:
         lufs, peak = loudness(a.file)

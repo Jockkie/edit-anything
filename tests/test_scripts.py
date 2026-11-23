@@ -143,6 +143,15 @@ class VerifyExport(unittest.TestCase):
             r = run(self.script, make_video(d, size="1920x1080"), "--shape", "9:16")
             self.assertEqual(r.returncode, 1)
 
+    def test_audio_cut_short_fails(self):
+        with tempfile.TemporaryDirectory() as d:
+            v = make_video(d, seconds=3)
+            out = os.path.join(d, "short.mp4")
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", v, "-af", "atrim=0:1.5", "-c:v", "copy", out], check=True)
+            r = run(self.script, out)
+            self.assertEqual(r.returncode, 1)
+            self.assertIn("cut off", r.stdout)
+
     def test_missing_audio_fails(self):
         with tempfile.TemporaryDirectory() as d:
             r = run(self.script, make_video(d, audio=False))
